@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/di/service_locator.dart';
 import 'package:news_app/features/news/domain/models/news_model_entity.dart';
 import 'package:news_app/features/news/presentation/bloc/news_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,11 +15,7 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  @override
-  void initState() {
-    context.read<NewsBloc>().add(GetNewsEvent());
-    super.initState();
-  }
+
 
   Future<void> openBrowser(String url) async {
     final uri = Uri.parse(url);
@@ -30,24 +27,27 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: BlocBuilder<NewsBloc, NewsState>(
-          builder: (context, state) {
-            if (state is LoadedNewsState) {
-              return ListView.builder(
-                itemCount: state.news.length,
-                itemBuilder: (context, index) {
-                  final NewsEntity news = state.news[index];
-                  return EverythingNewsTile(article: news, onTap: () {});
-                },
-              );
-            }
-            if (state is ErrorNewsState) {
-              return Text(state.message);
-            }
-            return CircularProgressIndicator.adaptive();
-          },
+    return BlocProvider(
+      create: (_) => getIt<NewsBloc>()..add(GetNewsEvent()),
+      child: Scaffold(
+        body: Center(
+          child: BlocBuilder<NewsBloc, NewsState>(
+            builder: (context, state) {
+              if (state is LoadedNewsState) {
+                return ListView.builder(
+                  itemCount: state.news.length,
+                  itemBuilder: (context, index) {
+                    final NewsEntity news = state.news[index];
+                    return EverythingNewsTile(article: news, onTap: () {});
+                  },
+                );
+              }
+              if (state is ErrorNewsState) {
+                return Text(state.message);
+              }
+              return CircularProgressIndicator.adaptive();
+            },
+          ),
         ),
       ),
     );

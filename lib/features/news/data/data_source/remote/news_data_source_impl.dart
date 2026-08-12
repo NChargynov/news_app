@@ -4,7 +4,7 @@ import 'package:news_app/features/news/data/models/news_model.dart';
 
 final class _ApiPath {
   static const String getNews =
-      'https://newsapi.org/v2/everything?q=good-things&from=2026-08-07&to=2026-08-07&sortBy=popularity&apiKey=60019dbd83e541ec8bcdc42081892ec1';
+      'v2/everything?q=sport&from=2026-13-08&to=2026-13-08&sortBy=popularity&apiKey=60019dbd83e541ec8bcdc42081892ec1';
 }
 
 class NewsDataSourceImpl implements NewsDataSource {
