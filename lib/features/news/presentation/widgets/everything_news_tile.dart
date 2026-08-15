@@ -52,7 +52,7 @@ class EverythingNewsTile extends StatelessWidget {
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-                        NewsImage(article: article),
+                        NewsImage(article: article, cacheHeight: imageHeight),
                         if (showFavorite)
                           const Positioned(
                             left: 10,

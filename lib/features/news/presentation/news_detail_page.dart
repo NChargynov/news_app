@@ -184,7 +184,7 @@ class _Cover extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: NewsImage(article: article, iconSize: 34),
+            child: NewsImage(article: article, iconSize: 34, cacheHeight: 300),
           ),
         ),
       ),

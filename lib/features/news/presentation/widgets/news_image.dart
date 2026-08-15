@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/news/domain/models/news_model_entity.dart';
 
@@ -7,11 +8,13 @@ class NewsImage extends StatelessWidget {
     required this.article,
     this.fit = BoxFit.cover,
     this.iconSize = 28,
+    this.cacheHeight,
   });
 
   final NewsEntity article;
   final BoxFit fit;
   final double iconSize;
+  final double? cacheHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +22,28 @@ class NewsImage extends StatelessWidget {
       return _ImagePlaceholder(iconSize: iconSize);
     }
 
-    return Image.network(
-      article.urlToImage,
+    final pixelRatio = MediaQuery.devicePixelRatioOf(context);
+
+    return CachedNetworkImage(
+      imageUrl: article.urlToImage,
+      cacheKey: article.urlToImage,
       fit: fit,
-      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-        if (wasSynchronouslyLoaded || frame != null) {
-          return child;
-        }
-        return const ColoredBox(color: Color(0xFFE8E8E8));
-      },
-      errorBuilder: (_, _, _) => _ImagePlaceholder(iconSize: iconSize),
+      filterQuality: FilterQuality.medium,
+      memCacheHeight: _physicalPixels(cacheHeight, pixelRatio),
+      useOldImageOnUrlChange: true,
+      placeholderFadeInDuration: Duration.zero,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      placeholder: (_, _) => const ColoredBox(color: Color(0xFFE8E8E8)),
+      errorWidget: (_, _, _) => _ImagePlaceholder(iconSize: iconSize),
     );
+  }
+
+  int? _physicalPixels(double? logicalPixels, double pixelRatio) {
+    if (logicalPixels == null) {
+      return null;
+    }
+    return (logicalPixels * pixelRatio).round();
   }
 }
 
