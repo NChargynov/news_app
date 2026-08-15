@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:news_app/core/util/transformable.dart';
 import 'package:news_app/features/news/data/data_source/abstract/news_data_source.dart';
 import 'package:news_app/features/news/domain/models/news_model_entity.dart';
 import 'package:news_app/features/news/domain/repository/news_repository.dart';
@@ -13,6 +14,6 @@ class NewsRepositoryImpl implements NewsRepository {
   @override
   Future<List<NewsEntity>> getNews() async {
     final data = await dataSource.getNews();
-    return data.map((news) => news.convertToEntity()).toList();
+    return data.transform();
   }
 }
