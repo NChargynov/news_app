@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -13,6 +14,9 @@ Future<void> setupServiceLocator() async => getIt.init();
 
 @module
 abstract class AppModule {
+
+  @singleton
+  FlutterSecureStorage get flutterSecureStorage => FlutterSecureStorage();
 
   @singleton
   Talker get talker => TalkerFlutter.init();
@@ -43,7 +47,6 @@ abstract class AppModule {
     return dio;
   }
 }
-
 
 // Future<void> setupServiceLocator() async {
 
