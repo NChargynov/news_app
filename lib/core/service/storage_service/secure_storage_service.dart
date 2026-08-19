@@ -1,6 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
+abstract final class SecureStorageKeys{
+  static const String accessTokenKey = "accessTokenKey";
+  static const String refreshTokenKey = "refreshTokenKey";
+}
+
 @LazySingleton()
 class SecureStorageService {
   const SecureStorageService(this.flutterSecureStorage);
