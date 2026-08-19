@@ -90,6 +90,21 @@ class _AuthPageState extends State<AuthPage> {
                                   ),
                                 );
                               }
+
+                              if (state is ErrorAuthState) {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(
+                                    SnackBar(
+                                      content: Text(state.message),
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: const Color(0xFF232323),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                    ),
+                                  );
+                              }
                             },
                             builder: (context, state) {
                               final bool isLoading = state is LoadingAuthState;
