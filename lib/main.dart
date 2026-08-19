@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/di/service_locator.dart';
-import 'features/news/presentation/news_page.dart';
+import 'package:news_app/features/auth/presentation/auth_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ class NewsApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const NewsPage(),
+      home: const AuthPage(),
     );
   }
 }
