@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-typedef AuthorizeCallback = void Function(String login, String password);
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/di/service_locator.dart';
+import 'package:news_app/features/auth/presentation/cubit/auth_cubit.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, this.onAuthorize});
-
-  final AuthorizeCallback? onAuthorize;
+  const AuthPage({super.key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -24,97 +23,121 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: const EdgeInsets.fromLTRB(30, 25, 30, 32),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 57,
-                ),
-                child: IntrinsicHeight(
-                  child: AutofillGroup(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const Spacer(flex: 2),
-                        const Text(
-                          'Авторизация',
-                          style: TextStyle(
-                            color: Color(0xFF232323),
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800,
-                            height: 1.1,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                        const SizedBox(height: 7),
-                        const Text(
-                          'Введите логин и пароль, чтобы продолжить',
-                          style: TextStyle(
-                            color: Color(0xFF777777),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            height: 1.35,
-                          ),
-                        ),
-                        const SizedBox(height: 48),
-                        _AuthTextField(
-                          controller: _loginController,
-                          hintText: 'Логин',
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
-                          autofillHints: const [AutofillHints.username],
-                        ),
-                        const SizedBox(height: 16),
-                        _AuthTextField(
-                          controller: _passwordController,
-                          hintText: 'Пароль',
-                          obscureText: true,
-                          textInputAction: TextInputAction.done,
-                          autofillHints: const [AutofillHints.password],
-                          onSubmitted: (_) => _authorize(),
-                        ),
-                        const SizedBox(height: 24),
-                        SizedBox(
-                          height: 54,
-                          child: FilledButton(
-                            onPressed: _authorize,
-                            style: FilledButton.styleFrom(
-                              backgroundColor: const Color(0xFF232323),
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              shape: const StadiumBorder(),
-                              textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                              ),
+    return BlocProvider(
+      create: (_) => getIt<AuthCubit>(),
+      child: Scaffold(
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.fromLTRB(30, 25, 30, 32),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight - 57,
+                  ),
+                  child: IntrinsicHeight(
+                    child: AutofillGroup(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Spacer(flex: 2),
+                          const Text(
+                            'Авторизация',
+                            style: TextStyle(
+                              color: Color(0xFF232323),
+                              fontSize: 28,
+                              fontWeight: FontWeight.w800,
+                              height: 1.1,
+                              letterSpacing: -0.5,
                             ),
-                            child: const Text('Авторизоваться'),
                           ),
-                        ),
-                        const Spacer(flex: 3),
-                      ],
+                          const SizedBox(height: 7),
+                          const Text(
+                            'Введите логин и пароль, чтобы продолжить',
+                            style: TextStyle(
+                              color: Color(0xFF777777),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              height: 1.35,
+                            ),
+                          ),
+                          const SizedBox(height: 48),
+                          _AuthTextField(
+                            controller: _loginController,
+                            hintText: 'Логин',
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            autofillHints: const [AutofillHints.username],
+                          ),
+                          const SizedBox(height: 16),
+                          _AuthTextField(
+                            controller: _passwordController,
+                            hintText: 'Пароль',
+                            obscureText: true,
+                            textInputAction: TextInputAction.done,
+                            autofillHints: const [AutofillHints.password],
+                          ),
+                          const SizedBox(height: 24),
+                          BlocConsumer<AuthCubit, AuthState>(
+                            listener: (context, state) {
+                              if(state is SuccessAuthState){
+
+                              }
+                            },
+                            builder: (context, state) {
+                              final bool isLoading = state is LoadingAuthState;
+
+                              if (isLoading) {
+                                return SizedBox(
+                                  height: 54,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+
+                              return SizedBox(
+                                height: 54,
+                                child: FilledButton(
+                                  onPressed: () => _authorize(context),
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: const Color(0xFF232323),
+                                    foregroundColor: Colors.white,
+                                    elevation: 0,
+                                    shape: const StadiumBorder(),
+                                    textStyle: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  child: const Text('Авторизоваться'),
+                                ),
+                              );
+                            },
+                          ),
+                          const Spacer(flex: 3),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  void _authorize() {
+  void _authorize(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
-    widget.onAuthorize?.call(
-      _loginController.text.trim(),
-      _passwordController.text,
-    );
+
+    final String login = _loginController.text.trim();
+    final String password = _passwordController.text.trim();
+
+    context.read<AuthCubit>().auth(login, password);
   }
 }
 
