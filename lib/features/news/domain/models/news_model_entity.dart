@@ -17,3 +17,10 @@ final class NewsEntity {
     required this.content,
   });
 }
+
+final class NewsResponseEntity {
+  final int totalResults;
+  final List<NewsEntity> articles;
+
+  NewsResponseEntity({required this.totalResults, required this.articles});
+}

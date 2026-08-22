@@ -24,4 +24,16 @@ class NewsDataSourceImpl implements NewsDataSource {
     });
     return news;
   }
+
+  @override
+  Future<NewsResponseModel> getNewsPaging({
+    required int pageSize,
+    required int page,
+  }) async {
+    final Response response = await dio.get(
+      _ApiPath.getNews,
+      queryParameters: {"pageSize": pageSize, "page": page},
+    );
+    return NewsResponseModel.fromJson(response.data);
+  }
 }

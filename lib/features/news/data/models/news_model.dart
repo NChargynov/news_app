@@ -35,6 +35,13 @@ final class NewsModel with Transformable<NewsEntity>{
     );
   }
 
+  static List<NewsModel> fromJsonList(List<dynamic>? jsonList) {
+    return jsonList
+            ?.map((json) => NewsModel.fromJson(json as Map<String, dynamic>))
+            .toList() ??
+        [];
+  }
+
   @override
   NewsEntity transform() {
     return NewsEntity(
@@ -45,6 +52,28 @@ final class NewsModel with Transformable<NewsEntity>{
       urlToImage: urlToImage ?? '',
       publishedAt: publishedAt ?? DateTime.now(),
       content: content ?? '',
+    );
+  }
+}
+
+final class NewsResponseModel with Transformable<NewsResponseEntity> {
+  final int? totalResults;
+  final List<NewsModel>? articles;
+
+  NewsResponseModel({this.totalResults, this.articles});
+
+  @override
+  NewsResponseEntity transform() {
+    return NewsResponseEntity(
+      totalResults: totalResults ?? 0,
+      articles: articles?.transform() ?? [],
+    );
+  }
+
+  factory NewsResponseModel.fromJson(Map<String, dynamic> json) {
+    return NewsResponseModel(
+      totalResults: json['totalResults'] as int?,
+      articles: NewsModel.fromJsonList(json['articles'] as List<dynamic>?),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:news_app/features/news/domain/models/news_model_entity.dart';
 import 'package:news_app/features/news/domain/use_case/get_news_use_case.dart';
+import 'package:news_app/features/news/presentation/adapter/news_paging_adapter.dart';
 
 part 'news_event.dart';
 

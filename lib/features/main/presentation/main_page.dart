@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/features/everything/presentation/everything_page.dart';
+import 'package:news_app/features/news/presentation/everything_page.dart';
 import 'package:news_app/features/home/presentation/home_page.dart';
 import 'package:news_app/features/main/presentation/widgets/app_bottom_navigation.dart';
 import 'package:news_app/features/profile/presentation/profile_page.dart';
