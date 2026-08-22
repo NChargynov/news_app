@@ -3,7 +3,7 @@ import 'package:news_app/core/di/service_locator.dart';
 import 'package:news_app/features/news/presentation/adapter/news_paging_adapter.dart';
 import 'package:paging_view/paging_view.dart';
 
-import 'widgets/everything_news_tile.dart';
+import 'widgets/everything_news_card.dart';
 
 class EveryThingPage extends StatefulWidget {
   const EveryThingPage({super.key});
@@ -52,7 +52,7 @@ class _EveryThingPageState extends State<EveryThingPage> {
               return Center(child: Text(error.toString()));
             },
             builder: (context, newsEntity, index) {
-              return EverythingNewsTile(article: newsEntity, onTap: () {});
+              return EverythingNewsCard(article: newsEntity);
             },
           ),
           onRefresh: () async {
