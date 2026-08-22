@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/di/service_locator.dart';
 import 'package:news_app/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:news_app/features/news/presentation/news_page.dart';
+import 'package:news_app/features/main/presentation/main_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -86,7 +86,7 @@ class _AuthPageState extends State<AuthPage> {
                               if (state is SuccessAuthState) {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute<void>(
-                                    builder: (_) => const NewsPage(),
+                                    builder: (_) => const MainPage(),
                                   ),
                                 );
                               }
