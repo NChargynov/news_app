@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/di/service_locator.dart';
+import 'package:news_app/core/service/storage_service/secure_storage_service.dart';
 import 'package:news_app/features/auth/presentation/auth_page.dart';
+import 'package:news_app/features/main/presentation/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupServiceLocator();
-  runApp(const NewsApp());
+
+  final isAuthorized = await _isUserAuthorized();
+
+  runApp(NewsApp(isAuthorized: isAuthorized));
+}
+
+Future<bool> _isUserAuthorized() async {
+  try {
+    final accessToken = await getIt<SecureStorageService>().get(
+      SecureStorageKeys.accessTokenKey,
+    );
+    return accessToken?.trim().isNotEmpty ?? false;
+  } catch (_) {
+    return false;
+  }
 }
 
 class NewsApp extends StatelessWidget {
-  const NewsApp({super.key});
+  const NewsApp({super.key, required this.isAuthorized});
+
+  final bool isAuthorized;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +37,7 @@ class NewsApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const AuthPage(),
+      home: isAuthorized ? const MainPage() : const AuthPage(),
     );
   }
 }
