@@ -63,4 +63,12 @@ class AuthDataSourceImpl implements AuthDataSource {
 
     return false;
   }
+
+  @override
+  Future<bool> isAuthorized() async {
+    final accessToken = await secureStorageService.get(
+      SecureStorageKeys.accessTokenKey,
+    );
+    return accessToken != null && accessToken.isNotEmpty;
+  }
 }

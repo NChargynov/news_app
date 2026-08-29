@@ -25,4 +25,17 @@ class AuthCubit extends Cubit<AuthState> {
       emit(ErrorAuthState(message: "Ошибка Авторизации ${e.toString()}"));
     }
   }
+
+  Future<void> checkAuth() async {
+    try {
+      final result = await authRepository.isAuthorized();
+      if (result) {
+        emit(SuccessAuthState());
+        return;
+      }
+      emit(ErrorAuthState(message: "Ошибка Авторизации"));
+    } catch (e) {
+      emit(ErrorAuthState(message: "Ошибка Авторизации ${e.toString()}"));
+    }
+  }
 }

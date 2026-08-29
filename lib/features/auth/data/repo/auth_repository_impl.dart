@@ -16,4 +16,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> auth(String login, String password) async {
     return await dataSource.auth(login, password);
   }
+
+  @override
+  Future<bool> isAuthorized() async {
+    return await dataSource.isAuthorized();
+  }
 }
