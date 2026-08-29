@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/di/service_locator.dart';
@@ -7,6 +8,8 @@ import 'package:news_app/features/main/presentation/widgets/app_bottom_navigatio
 import 'package:news_app/features/news/presentation/everything_page.dart';
 import 'package:news_app/features/profile/presentation/profile_page.dart';
 
+
+@RoutePage()
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 

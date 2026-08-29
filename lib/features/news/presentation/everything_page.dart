@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/core/di/service_locator.dart';
 import 'package:news_app/features/news/presentation/adapter/news_paging_adapter.dart';
@@ -5,6 +6,8 @@ import 'package:paging_view/paging_view.dart';
 
 import 'widgets/everything_news_card.dart';
 
+
+@RoutePage()
 class EveryThingPage extends StatefulWidget {
   const EveryThingPage({super.key});
 

@@ -1,12 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/di/service_locator.dart';
+import 'package:news_app/core/router/app_router.gr.dart';
 import 'package:news_app/features/news/domain/models/news_model_entity.dart';
 import 'package:news_app/features/news/presentation/bloc/news_bloc.dart';
 import 'package:news_app/features/news/presentation/news_detail_page.dart';
 import 'package:news_app/features/news/presentation/widgets/news_search_field.dart';
 import 'package:news_app/features/news/presentation/widgets/news_section.dart';
 
+@RoutePage()
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
 
@@ -31,7 +34,7 @@ class _NewsPageState extends State<NewsPage> {
                   news: state.news,
                   query: _query,
                   onQueryChanged: (value) => setState(() => _query = value),
-                  onArticleTap: _openDetails,
+                  onArticleTap: (article) => _openDetails(context, article),
                 );
               }
               if (state is ErrorNewsState) {
@@ -47,31 +50,34 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
-  void _openDetails(NewsEntity article) {
-    Navigator.of(context).push(
-      PageRouteBuilder<void>(
-        transitionDuration: const Duration(milliseconds: 520),
-        reverseTransitionDuration: const Duration(milliseconds: 420),
-        pageBuilder: (_, _, _) => NewsDetailPage(article: article),
-        transitionsBuilder: (_, animation, _, child) {
-          final curvedAnimation = CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOutCubic,
-            reverseCurve: Curves.easeInCubic,
-          );
-          return FadeTransition(
-            opacity: curvedAnimation,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.08),
-                end: Offset.zero,
-              ).animate(curvedAnimation),
-              child: child,
-            ),
-          );
-        },
-      ),
-    );
+  void _openDetails(BuildContext context, NewsEntity article) {
+
+    context.router.push(NewsDetailRoute(article: article));
+
+    // Navigator.of(context).push(
+    //   PageRouteBuilder<void>(
+    //     transitionDuration: const Duration(milliseconds: 520),
+    //     reverseTransitionDuration: const Duration(milliseconds: 420),
+    //     pageBuilder: (_, _, _) => NewsDetailPage(article: article),
+    //     transitionsBuilder: (_, animation, _, child) {
+    //       final curvedAnimation = CurvedAnimation(
+    //         parent: animation,
+    //         curve: Curves.easeOutCubic,
+    //         reverseCurve: Curves.easeInCubic,
+    //       );
+    //       return FadeTransition(
+    //         opacity: curvedAnimation,
+    //         child: SlideTransition(
+    //           position: Tween<Offset>(
+    //             begin: const Offset(0, 0.08),
+    //             end: Offset.zero,
+    //           ).animate(curvedAnimation),
+    //           child: child,
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }
 

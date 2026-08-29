@@ -8,6 +8,7 @@ import 'package:news_app/features/auth/presentation/auth_page.dart';
 import 'package:news_app/features/main/presentation/main_page.dart';
 import 'package:news_app/firebase_options.dart';
 
+import 'core/router/app_router.dart';
 import 'core/service/firebase_service/push_backround_handler.dart';
 
 Future<void> main() async {
@@ -21,36 +22,23 @@ Future<void> main() async {
 
   await getIt<PushForegroundService>().initialize();
 
-  final isAuthorized = await _isUserAuthorized();
-
-  runApp(NewsApp(isAuthorized: isAuthorized));
-}
-
-Future<bool> _isUserAuthorized() async {
-  try {
-    final accessToken = await getIt<SecureStorageService>().get(
-      SecureStorageKeys.accessTokenKey,
-    );
-    return accessToken?.trim().isNotEmpty ?? false;
-  } catch (_) {
-    return false;
-  }
+  runApp(NewsApp());
 }
 
 class NewsApp extends StatelessWidget {
-  const NewsApp({super.key, required this.isAuthorized});
+  NewsApp({super.key});
 
-  final bool isAuthorized;
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: _appRouter.config(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: isAuthorized ? const MainPage() : const AuthPage(),
     );
   }
 }
