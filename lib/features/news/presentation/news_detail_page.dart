@@ -117,23 +117,37 @@ class NewsDetailPage extends StatelessWidget {
                               ),
                               const Spacer(),
                               const SizedBox(height: 38),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: IconButton(
-                                  onPressed: () =>
-                                      context.router.maybePop(),
-                                  padding: EdgeInsets.zero,
-                                  alignment: Alignment.centerLeft,
-                                  constraints: const BoxConstraints(
-                                    minWidth: 48,
-                                    minHeight: 48,
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () => context.router.maybePop(),
+                                    padding: EdgeInsets.zero,
+                                    alignment: Alignment.centerLeft,
+                                    constraints: const BoxConstraints(
+                                      minWidth: 48,
+                                      minHeight: 48,
+                                    ),
+                                    icon: const Icon(
+                                      Icons.arrow_back,
+                                      color: Color(0xFF111111),
+                                      size: 30,
+                                    ),
                                   ),
-                                  icon: const Icon(
-                                    Icons.arrow_back,
-                                    color: Color(0xFF111111),
-                                    size: 30,
+                                  const Spacer(),
+                                  FilledButton.icon(
+                                    onPressed: () => context.router.pop(true),
+                                    style: FilledButton.styleFrom(
+                                      backgroundColor: const Color(0xFF232323),
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 18,
+                                        vertical: 13,
+                                      ),
+                                    ),
+                                    icon: const Icon(Icons.check_rounded),
+                                    label: const Text('Прочитано'),
                                   ),
-                                ),
+                                ],
                               ),
                             ],
                           ),

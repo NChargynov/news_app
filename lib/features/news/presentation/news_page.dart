@@ -5,7 +5,6 @@ import 'package:news_app/core/di/service_locator.dart';
 import 'package:news_app/core/router/app_router.gr.dart';
 import 'package:news_app/features/news/domain/models/news_model_entity.dart';
 import 'package:news_app/features/news/presentation/bloc/news_bloc.dart';
-import 'package:news_app/features/news/presentation/news_detail_page.dart';
 import 'package:news_app/features/news/presentation/widgets/news_search_field.dart';
 import 'package:news_app/features/news/presentation/widgets/news_section.dart';
 
@@ -51,8 +50,21 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   void _openDetails(BuildContext context, NewsEntity article) {
+    final route = NewsDetailRoute(article: article);
 
-    context.router.push(NewsDetailRoute(article: article));
+    context.router.push<bool>(route).then((isMarkedAsRead) {
+      if (isMarkedAsRead != true) {
+        return;
+      }
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(content: Text('Новость отмечена как прочитанная')),
+          );
+      }
+    });
 
     // Navigator.of(context).push(
     //   PageRouteBuilder<void>(
