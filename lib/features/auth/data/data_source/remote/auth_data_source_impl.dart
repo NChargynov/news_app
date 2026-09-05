@@ -20,6 +20,8 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   @override
   Future<bool> auth(String login, String password) async {
+    return true;
+
     final dio = Dio(
       BaseOptions(baseUrl: "https://test-ibragim.free.beeceptor.com"),
     );
@@ -61,7 +63,7 @@ class AuthDataSourceImpl implements AuthDataSource {
       return true;
     }
 
-    return false;
+    return true;
   }
 
   @override

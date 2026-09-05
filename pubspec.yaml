@@ -48,6 +48,7 @@ dependencies:
   paging_view: ^2.8.1
   auto_route: ^11.1.0
   auto_route_generator: ^10.5.0
+  lottie: ^3.3.3
 
   # Firebase Core инициализирует Firebase SDK в Dart-коде.
   firebase_core: ^4.9.0
@@ -81,6 +82,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
