@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/domain/entity/news_article_entity.dart';
+import 'package:news_app/features/news/domain/entity/news_article_entity.dart';
 
 class ArticleTile extends StatelessWidget {
   const ArticleTile({super.key, required this.article});

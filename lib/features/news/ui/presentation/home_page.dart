@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/domain/repo/news_repository.dart';
-import 'package:news_app/ui/bloc/news_bloc.dart';
-import 'package:news_app/ui/bloc/news_event.dart';
-import 'package:news_app/ui/bloc/news_state.dart';
-import 'package:news_app/ui/presentation/widgets/article_tile.dart';
+import 'package:news_app/core/di/service_locator.dart';
+import 'package:news_app/features/news/ui/bloc/news_bloc.dart';
+import 'package:news_app/features/news/ui/bloc/news_event.dart';
+import 'package:news_app/features/news/ui/bloc/news_state.dart';
+import 'package:news_app/features/news/ui/presentation/widgets/article_tile.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.newsRepository});
-
-  final NewsRepository newsRepository;
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: BlocProvider(
-          create: (_) =>
-              NewsBloc(newsRepository: newsRepository)..add(GetEverythingEvent()),
+          create: (_) => getIt<NewsBloc>()..add(GetEverythingEvent()),
           child: BlocBuilder<NewsBloc, NewsState>(
             builder: (context, state) {
               if (state is NewsLoading) {

@@ -1,4 +1,4 @@
-import 'package:news_app/domain/entity/news_article_entity.dart';
+import 'package:news_app/features/news/domain/entity/news_article_entity.dart';
 
 class NewsArticleModel {
   const NewsArticleModel({
