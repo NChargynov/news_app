@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:news_app/features/news/domain/repo/news_repository.dart';
 import 'package:news_app/features/news/ui/bloc/news_event.dart';
 import 'package:news_app/features/news/ui/bloc/news_state.dart';
 
+@injectable
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc({required this.newsRepository}) : super(NewsInitial()) {
     on<GetEverythingEvent>(_getEverythingArticles);
