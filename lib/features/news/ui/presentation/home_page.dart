@@ -8,6 +8,7 @@ import 'package:news_app/features/news/ui/bloc/news_event.dart';
 import 'package:news_app/features/news/ui/bloc/news_state.dart';
 import 'package:news_app/features/news/ui/presentation/models/news_sections.dart';
 import 'package:news_app/features/news/ui/presentation/news_home_style.dart';
+import 'package:news_app/features/news/ui/presentation/news_detail_page.dart';
 import 'package:news_app/features/news/ui/presentation/widgets/news_header.dart';
 import 'package:news_app/features/news/ui/presentation/widgets/news_section.dart';
 
@@ -74,6 +75,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _openArticle(NewsArticleEntity article, Object heroTag) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    Navigator.of(context)
+        .push(NewsDetailPage.route(article: article, heroTag: heroTag));
+  }
+
   List<Widget> _buildSections(NewsSuccess state) {
     final sections = NewsSections.fromArticles(state.news).matching(_query);
     if (sections.isEmpty) {
@@ -93,6 +100,7 @@ class _HomePageState extends State<HomePage> {
       SliverToBoxAdapter(
         child: NewsSection(
           title: 'Trending',
+          onArticleTap: _openArticle,
           articles: sections.trending,
           highlighted: true,
           favorites: _favorites,
@@ -105,6 +113,7 @@ class _HomePageState extends State<HomePage> {
       SliverToBoxAdapter(
         child: NewsSection(
           title: 'New releases',
+          onArticleTap: _openArticle,
           articles: sections.newReleases,
         ),
       ),
@@ -112,6 +121,7 @@ class _HomePageState extends State<HomePage> {
       SliverToBoxAdapter(
         child: NewsSection(
           title: 'Selected for you',
+          onArticleTap: _openArticle,
           articles: sections.selectedForYou,
         ),
       ),

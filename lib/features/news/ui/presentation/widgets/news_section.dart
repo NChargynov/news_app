@@ -13,6 +13,7 @@ class NewsSection extends StatelessWidget {
     this.highlighted = false,
     this.favorites = const {},
     this.onFavoriteToggle,
+    this.onArticleTap,
   });
 
   final String title;
@@ -20,6 +21,7 @@ class NewsSection extends StatelessWidget {
   final bool highlighted;
   final Set<NewsArticleEntity> favorites;
   final ValueChanged<NewsArticleEntity>? onFavoriteToggle;
+  final void Function(NewsArticleEntity article, Object heroTag)? onArticleTap;
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +72,13 @@ class NewsSection extends StatelessWidget {
                   separatorBuilder: (_, _) => const SizedBox(width: 30),
                   itemBuilder: (context, index) {
                     final article = articles[index];
+                    final heroTag = (title, index, article);
                     return ArticleTile(
                       article: article,
+                      heroTag: heroTag,
+                      onTap: onArticleTap == null
+                          ? null
+                          : () => onArticleTap!(article, heroTag),
                       highlighted: highlighted,
                       isFavorite: favorites.contains(article),
                       onFavoriteToggle: onFavoriteToggle == null

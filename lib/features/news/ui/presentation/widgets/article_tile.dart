@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/news/domain/entity/news_article_entity.dart';
 import 'package:news_app/features/news/ui/presentation/news_home_style.dart';
+import 'package:news_app/features/news/ui/presentation/widgets/news_article_image.dart';
 
 class ArticleTile extends StatelessWidget {
   const ArticleTile({
@@ -9,57 +10,46 @@ class ArticleTile extends StatelessWidget {
     this.highlighted = false,
     this.isFavorite = false,
     this.onFavoriteToggle,
+    this.heroTag,
+    this.onTap,
   });
 
   final NewsArticleEntity article;
   final bool highlighted;
   final bool isFavorite;
   final VoidCallback? onFavoriteToggle;
+  final Object? heroTag;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final width = highlighted ? 140.0 : 100.0;
     final height = highlighted ? 220.0 : 160.0;
 
-    return SizedBox(
-      width: width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Semantics(
-            label: '${article.title}, ${article.author}',
-            image: true,
-            child: Container(
-              width: width,
-              height: height,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x40000000),
-                    offset: Offset(0, 4),
-                    blurRadius: 15,
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
+    final image = NewsArticleImage(url: article.urlToImage);
+
+    return Semantics(
+      button: onTap != null,
+      label: '${article.title}, ${article.author}',
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          width: width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: width,
+                height: height,
                 child: Stack(
                   fit: StackFit.expand,
+                  clipBehavior: Clip.none,
                   children: [
-                    if (article.urlToImage.isEmpty)
-                      const _ImagePlaceholder()
+                    if (heroTag == null)
+                      image
                     else
-                      Image.network(
-                        article.urlToImage,
-                        fit: BoxFit.cover,
-                        excludeFromSemantics: true,
-                        errorBuilder: (_, _, _) => const _ImagePlaceholder(),
-                        frameBuilder: (context, child, frame, synchronous) =>
-                            synchronous || frame != null
-                            ? child
-                            : const _ImagePlaceholder(),
-                      ),
+                      Hero(tag: heroTag!, child: image),
                     if (highlighted && onFavoriteToggle != null)
                       Positioned(
                         left: 0,
@@ -85,42 +75,24 @@ class ArticleTile extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+              if (!highlighted) ...[
+                const SizedBox(height: 15),
+                Text(
+                  article.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: NewsHomeStyle.articleTitle,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  article.author,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: NewsHomeStyle.author,
+                ),
+              ],
+            ],
           ),
-          if (!highlighted) ...[
-            const SizedBox(height: 15),
-            Text(
-              article.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: NewsHomeStyle.articleTitle,
-            ),
-            const SizedBox(height: 5),
-            Text(
-              article.author,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: NewsHomeStyle.author,
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _ImagePlaceholder extends StatelessWidget {
-  const _ImagePlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: NewsHomeStyle.searchBackground,
-      child: Center(
-        child: Icon(
-          Icons.image_not_supported_outlined,
-          color: NewsHomeStyle.muted,
-          size: 28,
         ),
       ),
     );
