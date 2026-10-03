@@ -5,7 +5,7 @@ import 'package:news_app/features/news/data/remote/api/news_data_source.dart';
 
 abstract final class _ApiPath {
   static const String everyThing =
-      "everything?q=football&from=2026-08-30&sortBy=publishedAt&apiKey=$apiKey";
+      "everything?q=football&from=2026-09-03&sortBy=publishedAt&apiKey=$apiKey";
   static const String apiKey = "9941da606ad2474c8a3c60939772cada";
 }
 
