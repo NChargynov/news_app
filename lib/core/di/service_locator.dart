@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:news_app/core/di/service_locator.config.dart';
@@ -15,6 +16,9 @@ abstract class AppModule {
 
   @singleton
   Talker get talker => TalkerFlutter.init();
+
+  @singleton
+  FlutterSecureStorage get flutterSecureStorage => FlutterSecureStorage();
 
   @singleton
   Dio dio() {
