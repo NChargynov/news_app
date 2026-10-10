@@ -42,6 +42,7 @@ dependencies:
   get_it: ^9.3.0
   injectable: ^3.0.0
   flutter_secure_storage: ^11.2.0
+  paging_view: ^2.10.1
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/icons/bottom_nav/
 
   fonts:
     - family: Montserrat

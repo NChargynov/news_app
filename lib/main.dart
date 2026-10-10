@@ -5,7 +5,7 @@ import 'package:news_app/features/auth/ui/bloc/auth_cubit.dart';
 import 'package:news_app/features/auth/ui/presentation/auth_page.dart';
 import 'package:news_app/features/news/ui/bloc/news_bloc.dart';
 import 'package:news_app/features/news/ui/bloc/news_event.dart';
-import 'package:news_app/features/news/ui/presentation/home_page.dart';
+import 'package:news_app/features/navigation/ui/presentation/main_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                 builder: (_) => BlocProvider(
                   create: (_) =>
                       getIt<NewsBloc>()..add(const GetEverythingEvent()),
-                  child: const HomePage(),
+                  child: const MainPage(),
                 ),
               ),
             ),
