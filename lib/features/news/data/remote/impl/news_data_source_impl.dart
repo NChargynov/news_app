@@ -9,7 +9,6 @@ abstract final class _ApiPath {
   static const String apiKey = "9941da606ad2474c8a3c60939772cada";
 }
 
-
 @LazySingleton(as: NewsDataSource)
 class NewsDataSourceImpl implements NewsDataSource {
   const NewsDataSourceImpl({required this.dio});
@@ -20,5 +19,18 @@ class NewsDataSourceImpl implements NewsDataSource {
   Future<List<NewsArticleModel>> getEverythingArticles() async {
     final response = await dio.get(_ApiPath.everyThing);
     return NewsArticleModel.fromJsonList(response.data["articles"]);
+  }
+
+  @override
+  Future<NewsResponseModel> getEverythingNewsPaging({
+    required int pageSize,
+    required int page,
+  }) async {
+    final response = await dio.get(
+      _ApiPath.everyThing,
+      queryParameters: {"pageSize": pageSize, "page": page},
+    );
+
+    return NewsResponseModel.fromJson(response.data);
   }
 }

@@ -51,3 +51,26 @@ class NewsArticleModel {
     );
   }
 }
+
+class NewsResponseModel {
+  const NewsResponseModel({this.articles, this.totalResults});
+
+  final int? totalResults;
+  final List<NewsArticleModel>? articles;
+
+  factory NewsResponseModel.fromJson(Map<String, dynamic> json) {
+    final articlesJson = json['articles'];
+    return NewsResponseModel(
+      totalResults: json['totalResults'] as int?,
+      articles: NewsArticleModel.fromJsonList(articlesJson),
+    );
+  }
+
+  NewsResponseEntity fromModelToEntity() {
+    return NewsResponseEntity(
+      articles:
+          articles?.map((model) => model.fromModelToEntity()).toList() ?? [],
+      totalResults: totalResults ?? 0,
+    );
+  }
+}

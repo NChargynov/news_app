@@ -16,6 +16,14 @@ class NewsArticleEntity {
   final String urlToImage;
   final String publishedAt;
   final String content;
+}
 
+class NewsResponseEntity {
+  const NewsResponseEntity({
+    required this.articles,
+    required this.totalResults,
+  });
 
+  final int totalResults;
+  final List<NewsArticleEntity> articles;
 }
