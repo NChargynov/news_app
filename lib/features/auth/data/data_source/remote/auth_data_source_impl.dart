@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:news_app/core/service/secure_storage_service.dart';
+import 'package:news_app/core/service/storage_service/secure_storage_service.dart';
 import 'package:news_app/features/auth/data/data_source/abstract/auth_data_source.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
