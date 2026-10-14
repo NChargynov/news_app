@@ -44,6 +44,16 @@ dependencies:
   flutter_secure_storage: ^11.2.0
   paging_view: ^2.10.1
 
+  # Firebase Core инициализирует Firebase SDK в Dart-коде.
+  firebase_core: ^4.15.0
+
+  # Firebase Messaging нужен для push-уведомлений через FCM.
+  firebase_messaging: ^16.7.0
+
+  # Локальные уведомления используются для показа notification UI на устройстве.
+  # На Android этот пакет требует core library desugaring в build.gradle.kts.
+  flutter_local_notifications: ^22.3.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
