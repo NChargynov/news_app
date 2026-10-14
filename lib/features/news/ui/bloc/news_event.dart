@@ -10,3 +10,7 @@ sealed class NewsEvent extends Equatable {
 class GetEverythingEvent extends NewsEvent {
   const GetEverythingEvent();
 }
+
+class RequestPermissionEvent extends NewsEvent {
+  const RequestPermissionEvent();
+}

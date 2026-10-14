@@ -37,8 +37,9 @@ class MyApp extends StatelessWidget {
             onAuthenticated: () => Navigator.of(context).pushReplacement(
               MaterialPageRoute<void>(
                 builder: (_) => BlocProvider(
-                  create: (_) =>
-                      getIt<NewsBloc>()..add(const GetEverythingEvent()),
+                  create: (_) => getIt<NewsBloc>()
+                    ..add(const GetEverythingEvent())
+                    ..add(RequestPermissionEvent()),
                   child: const MainPage(),
                 ),
               ),

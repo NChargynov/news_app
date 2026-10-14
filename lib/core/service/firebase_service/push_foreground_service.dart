@@ -15,25 +15,6 @@ class PushForegroundService {
   final FlutterLocalNotificationsPlugin localNotificationsPlugin;
   final Talker talker;
 
-  Future<void> requestPermissionAndLogToken() async {
-    try {
-      var settings = await messaging.getNotificationSettings();
-      if (settings.authorizationStatus != AuthorizationStatus.authorized &&
-          settings.authorizationStatus != AuthorizationStatus.provisional) {
-        settings = await messaging.requestPermission();
-      }
-      if (settings.authorizationStatus != AuthorizationStatus.authorized &&
-          settings.authorizationStatus != AuthorizationStatus.provisional) {
-        return;
-      }
-      final token = await messaging.getToken();
-      if (token != null && token.isNotEmpty) {
-        talker.info('FCM token: $token');
-      }
-    } catch (_) {
-      talker.error('Не удалось получить FCM-токен.');
-    }
-  }
 
   static const AndroidNotificationChannel androidNotificationChannel =
       AndroidNotificationChannel(
