@@ -54,6 +54,8 @@ dependencies:
   # На Android этот пакет требует core library desugaring в build.gradle.kts.
   flutter_local_notifications: ^22.3.2
 
+  lottie: ^3.6.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,6 +82,7 @@ flutter:
 
   assets:
     - assets/icons/bottom_nav/
+    - assets/animation/
 
   fonts:
     - family: Montserrat

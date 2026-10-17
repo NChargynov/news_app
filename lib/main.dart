@@ -9,6 +9,7 @@ import 'package:news_app/features/auth/ui/presentation/auth_page.dart';
 import 'package:news_app/features/news/ui/bloc/news_bloc.dart';
 import 'package:news_app/features/news/ui/bloc/news_event.dart';
 import 'package:news_app/features/navigation/ui/presentation/main_page.dart';
+import 'package:news_app/features/profile/ui/presentation/profile_page.dart';
 import 'package:news_app/firebase_options.dart';
 
 void main() async {
