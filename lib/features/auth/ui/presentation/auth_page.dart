@@ -1,14 +1,20 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/di/service_locator.dart';
+import 'package:news_app/core/router/app_router.gr.dart';
 import 'package:news_app/features/auth/ui/bloc/auth_cubit.dart';
 import 'package:news_app/features/auth/ui/bloc/auth_state.dart';
 import 'package:news_app/features/auth/ui/presentation/auth_style.dart';
+import 'package:news_app/features/navigation/ui/presentation/main_page.dart';
+import 'package:news_app/features/news/ui/bloc/news_bloc.dart';
+import 'package:news_app/features/news/ui/bloc/news_event.dart';
 
+@RoutePage()
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, required this.onAuthenticated});
-
-  final VoidCallback onAuthenticated;
+  const AuthPage({super.key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -71,7 +77,8 @@ class _AuthPageState extends State<AuthPage> {
       listener: (context, state) {
         if (state is SuccessAuthState) {
           TextInput.finishAutofillContext();
-          widget.onAuthenticated();
+          // навигацию на главный экран
+          context.router.replace(MainRoute());
         }
       },
       builder: (context, state) {
@@ -111,7 +118,10 @@ class _AuthPageState extends State<AuthPage> {
                           const SizedBox(height: 24),
                           const Divider(height: 1, color: AuthStyle.divider),
                           const SizedBox(height: 48),
-                          const Text('С возвращением', style: AuthStyle.title),
+                          const Text(
+                            'С возвращением',
+                            style: AuthStyle.title,
+                          ),
                           const SizedBox(height: 12),
                           const Text(
                             'Войдите, чтобы читать новости.',
@@ -170,7 +180,8 @@ class _AuthPageState extends State<AuthPage> {
                                 ),
                               ),
                             ),
-                            validator: (value) => value == null || value.isEmpty
+                            validator: (value) =>
+                                value == null || value.isEmpty
                                 ? 'Введите пароль'
                                 : null,
                           ),

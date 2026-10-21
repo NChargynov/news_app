@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/di/service_locator.dart';
@@ -11,6 +12,7 @@ import 'package:paging_view/paging_view.dart';
 
 import 'widgets/everything_news_tile.dart';
 
+@RoutePage()
 class EverythingPage extends StatefulWidget {
   const EverythingPage({super.key});
 

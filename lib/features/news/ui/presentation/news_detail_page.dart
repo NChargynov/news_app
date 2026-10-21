@@ -1,8 +1,11 @@
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/news/domain/entity/news_article_entity.dart';
 import 'package:news_app/features/news/ui/presentation/news_home_style.dart';
 import 'package:news_app/features/news/ui/presentation/widgets/news_article_image.dart';
 
+@RoutePage()
 class NewsDetailPage extends StatelessWidget {
   const NewsDetailPage({
     super.key,
@@ -12,34 +15,6 @@ class NewsDetailPage extends StatelessWidget {
 
   final NewsArticleEntity article;
   final Object heroTag;
-
-  static Route<void> route({
-    required NewsArticleEntity article,
-    required Object heroTag,
-  }) => PageRouteBuilder<void>(
-    settings: RouteSettings(name: '/news/detail', arguments: article),
-    transitionDuration: const Duration(milliseconds: 300),
-    reverseTransitionDuration: const Duration(milliseconds: 250),
-    pageBuilder: (_, _, _) =>
-        NewsDetailPage(article: article, heroTag: heroTag),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final curve = CurvedAnimation(
-        parent: animation,
-        curve: Curves.easeOutCubic,
-        reverseCurve: Curves.easeInCubic,
-      );
-      return FadeTransition(
-        opacity: curve,
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 0.025),
-            end: Offset.zero,
-          ).animate(curve),
-          child: child,
-        ),
-      );
-    },
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +164,7 @@ class NewsDetailPage extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(22, 0, 22, 26),
                     child: IconButton(
                       tooltip: 'Назад',
-                      onPressed: () => Navigator.of(context).maybePop(),
+                      onPressed: () => context.router.maybePop(),
                       icon: const CustomPaint(
                         size: Size(30, 18),
                         painter: _BackArrowPainter(),
@@ -372,6 +347,7 @@ class _BackArrowPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+
     final paint = Paint()
       ..color = NewsHomeStyle.text
       ..strokeWidth = 1

@@ -3,13 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/di/service_locator.dart';
+import 'package:news_app/core/router/app_router.dart';
 import 'package:news_app/core/service/firebase_service/push_background_handler.dart';
 import 'package:news_app/features/auth/ui/bloc/auth_cubit.dart';
-import 'package:news_app/features/auth/ui/presentation/auth_page.dart';
-import 'package:news_app/features/news/ui/bloc/news_bloc.dart';
-import 'package:news_app/features/news/ui/bloc/news_event.dart';
-import 'package:news_app/features/navigation/ui/presentation/main_page.dart';
-import 'package:news_app/features/profile/ui/presentation/profile_page.dart';
 import 'package:news_app/firebase_options.dart';
 
 void main() async {
@@ -21,31 +17,24 @@ void main() async {
 
   await setupServiceLocator();
 
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final AppRouter _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (_) => getIt<AuthCubit>(),
-        child: Builder(
-          builder: (context) => AuthPage(
-            onAuthenticated: () => Navigator.of(context).pushReplacement(
-              MaterialPageRoute<void>(
-                builder: (_) => BlocProvider(
-                  create: (_) => getIt<NewsBloc>()
-                    ..add(const GetEverythingEvent())
-                    ..add(RequestPermissionEvent()),
-                  child: const MainPage(),
-                ),
-              ),
-            ),
-          ),
+    return BlocProvider<AuthCubit>(
+      create: (_) => getIt<AuthCubit>(),
+      child: MaterialApp.router(
+        routerConfig: _appRouter.config(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          scaffoldBackgroundColor: Colors.white,
         ),
       ),
     );

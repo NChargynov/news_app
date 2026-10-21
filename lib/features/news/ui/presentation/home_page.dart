@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/router/app_router.gr.dart';
 import 'package:news_app/features/news/domain/entity/news_article_entity.dart';
 import 'package:news_app/features/news/ui/bloc/news_bloc.dart';
 import 'package:news_app/features/news/ui/bloc/news_event.dart';
@@ -12,6 +14,7 @@ import 'package:news_app/features/news/ui/presentation/news_detail_page.dart';
 import 'package:news_app/features/news/ui/presentation/widgets/news_header.dart';
 import 'package:news_app/features/news/ui/presentation/widgets/news_section.dart';
 
+@RoutePage()
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -77,8 +80,12 @@ class _HomePageState extends State<HomePage> {
 
   void _openArticle(NewsArticleEntity article, Object heroTag) {
     FocusManager.instance.primaryFocus?.unfocus();
-    Navigator.of(context)
-        .push(NewsDetailPage.route(article: article, heroTag: heroTag));
+    context.router.push(NewsDetailRoute(article: article, heroTag: heroTag))
+        .then((data){
+          if(data != null && data is String){
+            print("ololo ${data}");
+          }
+    });
   }
 
   List<Widget> _buildSections(NewsSuccess state) {
